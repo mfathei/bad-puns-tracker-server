@@ -19,6 +19,27 @@ class MovieRepository extends ServiceEntityRepository
         parent::__construct($registry, Movie::class);
     }
 
+    public function transform(Movie $movie)
+    {
+        return [
+            'id' => (int)$movie->getId(),
+            'title' => (string)$movie->getTitle(),
+            'count' => (int)$movie->getCount()
+        ];
+    }
+
+    public function transformAll()
+    {
+        $movies = $this->findAll();
+        $moviesArray = [];
+
+        foreach ($movies as $movie) {
+            $moviesArray[] = $this->transform($movie);
+        }
+
+        return $moviesArray;
+    }
+
 //    /**
 //     * @return Movie[] Returns an array of Movie objects
 //     */
